@@ -5,10 +5,16 @@ export class RaindropServiceProvider extends BaseServiceProvider {
     super('raindrop');
   }
 
-  async getAuthorizationUrl(): Promise<string> {
+  async getAuthorizationUrl(searchParams: {
+    [key: string]: string | string[] | undefined;
+  }): Promise<string> {
     const params = new URLSearchParams();
     params.set('client_id', this.clientId);
     params.set('redirect_uri', this.redirectUri);
+
+    const state = this.getStateFromSearchParams(searchParams);
+    if (state) params.set('state', state);
+
     return `https://raindrop.io/oauth/authorize?${params.toString()}`;
   }
 

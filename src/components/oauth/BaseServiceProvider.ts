@@ -21,9 +21,32 @@ export abstract class BaseServiceProvider {
     this.scope = process.env[`${_name}_SCOPE`] ?? '';
   }
 
-  abstract getAuthorizationUrl(): Promise<string>;
+  abstract getAuthorizationUrl(searchParams: {
+    [key: string]: string | string[] | undefined;
+  }): Promise<string>;
 
   abstract getTokens(code: string): Promise<TokenResponse>;
 
   abstract refreshToken(refreshToken: string): Promise<TokenResponse>;
+
+  protected getStateFromSearchParams(searchParams: {
+    [key: string]: string | string[] | undefined;
+  }): string {
+    const state = searchParams.state ?? '';
+
+    if (state && typeof state === 'string') {
+      return state;
+    }
+
+    if (
+      state &&
+      typeof state === 'object' &&
+      'length' in state &&
+      state.length > 0
+    ) {
+      return state.join(',');
+    }
+
+    return '';
+  }
 }

@@ -7,7 +7,7 @@ export default function Home() {
       <h1>🐻‍❄️🔑 Auth Bear</h1>
       <ul>
         <li>
-          <Link href="/oauth/raindrop">💧 Raindrop</Link>
+          <Link href="/oauth/raindrop?state=123">💧 Raindrop</Link>
         </li>
       </ul>
     </div>
