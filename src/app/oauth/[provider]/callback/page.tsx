@@ -6,10 +6,12 @@ import {
 } from '@heroicons/react/24/solid';
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
 import { CheckBadgeIcon } from '@heroicons/react/24/solid';
+import { sendMessageToExtension } from '@/utils/extensions/messaging';
+import { SendTokensToExtension } from '@/components/common/SendTokensToExtension';
 
 interface CallbackPageProps {
   params: Promise<{ provider: string }>;
-  searchParams: Promise<{ code?: string }>;
+  searchParams: Promise<{ code?: string; state?: string }>;
 }
 
 export default async function CallbackPage({
@@ -17,11 +19,12 @@ export default async function CallbackPage({
   searchParams,
 }: CallbackPageProps) {
   const { provider } = await params;
-  const { code } = await searchParams;
+  const { code, state } = await searchParams;
 
   // Get the provider instance
   const providerInstance = serviceProviders[provider];
 
+  // Check if the provider instance is available
   if (!providerInstance) {
     console.error(`Provider not found: ${provider}`);
     return (
@@ -36,6 +39,7 @@ export default async function CallbackPage({
     );
   }
 
+  // Check if the code is available
   if (!code) {
     console.error('Missing code in query parameters');
     return (
@@ -85,15 +89,33 @@ export default async function CallbackPage({
       );
     }
 
+    // check if extension id is in state
+    let extensionId: string | undefined;
+    try {
+      if (state) {
+        const stateData = JSON.parse(state);
+        extensionId = stateData.extensionId;
+      }
+    } catch (error) {
+      console.error('Failed to parse state data:', error, state);
+    }
+
     // Success case
     return (
-      <ResultCard
-        title="Success"
-        message="You can close this page now"
-        type="success"
-        className="bg-gradient-to-br from-green-50 to-blue-50"
-        icon={<CheckBadgeIcon className="w-16 h-16 mx-auto text-green-500" />}
-      />
+      <>
+        <ResultCard
+          title="Success"
+          message="You can close this page now"
+          type="success"
+          className="bg-gradient-to-br from-green-50 to-blue-50"
+          icon={<CheckBadgeIcon className="w-16 h-16 mx-auto text-green-500" />}
+        />
+        <SendTokensToExtension
+          provider={provider}
+          tokens={tokens}
+          extensionId={extensionId}
+        />
+      </>
     );
   } catch (error) {
     console.error('Failed to get tokens:');

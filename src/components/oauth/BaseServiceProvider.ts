@@ -1,8 +1,4 @@
-export interface TokenResponse {
-  access_token: string;
-  refresh_token: string;
-  expires_in: number;
-}
+import { SearchParams, TokenResponse } from './types';
 
 export abstract class BaseServiceProvider {
   public readonly name: string;
@@ -28,6 +24,19 @@ export abstract class BaseServiceProvider {
   abstract getTokens(code: string): Promise<TokenResponse>;
 
   abstract refreshToken(refreshToken: string): Promise<TokenResponse>;
+
+  protected getAuthorizationRequestBody(
+    searchParams: SearchParams,
+  ): URLSearchParams {
+    const params = new URLSearchParams();
+    params.set('client_id', this.clientId);
+    params.set('redirect_uri', this.redirectUri);
+
+    const state = this.getStateFromSearchParams(searchParams);
+    if (state) params.set('state', state);
+
+    return params;
+  }
 
   protected getStateFromSearchParams(searchParams: {
     [key: string]: string | string[] | undefined;

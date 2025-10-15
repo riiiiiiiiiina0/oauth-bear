@@ -1,4 +1,5 @@
-import { BaseServiceProvider, TokenResponse } from '../BaseServiceProvider';
+import { BaseServiceProvider } from '../BaseServiceProvider';
+import { TokenResponse } from '../types';
 
 export class RaindropServiceProvider extends BaseServiceProvider {
   constructor() {
@@ -8,13 +9,7 @@ export class RaindropServiceProvider extends BaseServiceProvider {
   async getAuthorizationUrl(searchParams: {
     [key: string]: string | string[] | undefined;
   }): Promise<string> {
-    const params = new URLSearchParams();
-    params.set('client_id', this.clientId);
-    params.set('redirect_uri', this.redirectUri);
-
-    const state = this.getStateFromSearchParams(searchParams);
-    if (state) params.set('state', state);
-
+    const params = this.getAuthorizationRequestBody(searchParams);
     return `https://raindrop.io/oauth/authorize?${params.toString()}`;
   }
 
