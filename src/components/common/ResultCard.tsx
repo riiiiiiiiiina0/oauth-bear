@@ -10,7 +10,6 @@ export function ResultCard({
   message,
   type = 'success',
   showHomeLink = false,
-  showCloseButton = false,
 }: {
   className?: string;
   icon?: React.ReactNode;
@@ -18,7 +17,6 @@ export function ResultCard({
   message?: string;
   type?: 'error' | 'success';
   showHomeLink?: boolean;
-  showCloseButton?: boolean;
 }) {
   return (
     <div
@@ -41,10 +39,9 @@ export function ResultCard({
             </h2>
           )}
           {message && <p className="text-center">{message}</p>}
-          {(showHomeLink || showCloseButton) && (
+          {showHomeLink && (
             <div className="card-actions justify-center mt-4">
               {showHomeLink && <GoHomeLink />}
-              {showCloseButton && <ClosePageButton />}
             </div>
           )}
         </div>

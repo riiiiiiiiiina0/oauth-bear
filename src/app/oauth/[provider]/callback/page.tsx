@@ -45,7 +45,7 @@ export default async function CallbackPage({
         message="Missing authorization code"
         type="error"
         icon={<PlaceholderImage type="raindrop-error" />}
-        showCloseButton
+        showHomeLink
       />
     );
   }
@@ -78,7 +78,6 @@ export default async function CallbackPage({
           message={errorMessage}
           type="error"
           icon={<PlaceholderImage type="raindrop-error" />}
-          showCloseButton
         />
       );
     }
@@ -102,7 +101,6 @@ export default async function CallbackPage({
           message="You can close this page now"
           type="success"
           icon={<PlaceholderImage type="raindrop-success" />}
-          showCloseButton
         />
         <SendTokensToExtension
           provider={provider}
@@ -121,7 +119,6 @@ export default async function CallbackPage({
         message="Failed to obtain tokens"
         type="error"
         icon={<PlaceholderImage type="raindrop-error" />}
-        showCloseButton
       />
     );
   }
