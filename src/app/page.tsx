@@ -3,13 +3,13 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <>
-      <h1>Auth Bear</h1>
+    <div className="prose p-4">
+      <h1>🐻‍❄️🔑 Auth Bear</h1>
       <ul>
         <li>
-          <Link href="/oauth/raindrop">- Raindrop</Link>
+          <Link href="/oauth/raindrop">💧 Raindrop</Link>
         </li>
       </ul>
-    </>
+    </div>
   );
 }
