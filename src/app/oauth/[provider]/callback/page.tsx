@@ -1,13 +1,11 @@
-import { serviceProviders } from '@/components/oauth';
+import { PlaceholderImage } from '@/components/common/PlaceholderImage';
 import { ResultCard } from '@/components/common/ResultCard';
-import {
-  ExclamationCircleIcon,
-  ExclamationTriangleIcon,
-} from '@heroicons/react/24/solid';
-import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
-import { CheckBadgeIcon } from '@heroicons/react/24/solid';
-import { sendMessageToExtension } from '@/utils/extensions/messaging';
 import { SendTokensToExtension } from '@/components/common/SendTokensToExtension';
+import { serviceProviders } from '@/components/oauth';
+import { sendMessageToExtension } from '@/utils/extensions/messaging';
+import {
+    CheckBadgeIcon, ExclamationCircleIcon, ExclamationTriangleIcon, QuestionMarkCircleIcon
+} from '@heroicons/react/24/solid';
 
 interface CallbackPageProps {
   params: Promise<{ provider: string }>;
@@ -32,9 +30,8 @@ export default async function CallbackPage({
         title="Error"
         message="Provider not found"
         type="error"
-        icon={
-          <QuestionMarkCircleIcon className="w-16 h-16 mx-auto text-red-500" />
-        }
+        icon={<PlaceholderImage type="question" />}
+        showHomeLink
       />
     );
   }
@@ -47,9 +44,8 @@ export default async function CallbackPage({
         title="Error"
         message="Missing authorization code"
         type="error"
-        icon={
-          <ExclamationCircleIcon className="w-16 h-16 mx-auto text-red-500" />
-        }
+        icon={<PlaceholderImage type="raindrop-error" />}
+        showCloseButton
       />
     );
   }
@@ -81,10 +77,8 @@ export default async function CallbackPage({
           title="Authentication Failed"
           message={errorMessage}
           type="error"
-          className="bg-gradient-to-br from-red-50 to-orange-50"
-          icon={
-            <ExclamationCircleIcon className="w-16 h-16 mx-auto text-red-500" />
-          }
+          icon={<PlaceholderImage type="raindrop-error" />}
+          showCloseButton
         />
       );
     }
@@ -107,8 +101,8 @@ export default async function CallbackPage({
           title="Success"
           message="You can close this page now"
           type="success"
-          className="bg-gradient-to-br from-green-50 to-blue-50"
-          icon={<CheckBadgeIcon className="w-16 h-16 mx-auto text-green-500" />}
+          icon={<PlaceholderImage type="raindrop-success" />}
+          showCloseButton
         />
         <SendTokensToExtension
           provider={provider}
@@ -126,10 +120,8 @@ export default async function CallbackPage({
         title="Error"
         message="Failed to obtain tokens"
         type="error"
-        className="bg-gradient-to-br from-red-50 to-orange-50"
-        icon={
-          <ExclamationCircleIcon className="w-16 h-16 mx-auto text-red-500" />
-        }
+        icon={<PlaceholderImage type="raindrop-error" />}
+        showCloseButton
       />
     );
   }

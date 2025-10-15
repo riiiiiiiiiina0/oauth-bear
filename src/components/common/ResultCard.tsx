@@ -1,4 +1,6 @@
 import classNames from 'classnames';
+
+import { ClosePageButton } from './ClosePageButton';
 import { GoHomeLink } from './GoHomeLink';
 
 export function ResultCard({
@@ -7,12 +9,16 @@ export function ResultCard({
   title,
   message,
   type = 'success',
+  showHomeLink = false,
+  showCloseButton = false,
 }: {
   className?: string;
   icon?: React.ReactNode;
   title?: string;
   message?: string;
   type?: 'error' | 'success';
+  showHomeLink?: boolean;
+  showCloseButton?: boolean;
 }) {
   return (
     <div
@@ -21,22 +27,27 @@ export function ResultCard({
         className,
       )}
     >
-      <div className="text-center">
-        <div className="text-center p-8 bg-white rounded-lg shadow-lg">
-          {icon && <div className="mb-4">{icon}</div>}
+      <div className="card bg-base-100 w-96 shadow-xl">
+        {icon && <figure className="pt-8">{icon}</figure>}
+        <div className="card-body">
           {title && (
-            <h1
-              className={classNames('text-2xl font-bold mb-4', {
-                'text-red-600': type === 'error',
-                'text-green-600': type === 'success',
+            <h2
+              className={classNames('card-title justify-center', {
+                'text-error': type === 'error',
+                'text-success': type === 'success',
               })}
             >
               {title}
-            </h1>
+            </h2>
           )}
-          {message && <p>{message}</p>}
+          {message && <p className="text-center">{message}</p>}
+          {(showHomeLink || showCloseButton) && (
+            <div className="card-actions justify-center mt-4">
+              {showHomeLink && <GoHomeLink />}
+              {showCloseButton && <ClosePageButton />}
+            </div>
+          )}
         </div>
-        <GoHomeLink />
       </div>
     </div>
   );

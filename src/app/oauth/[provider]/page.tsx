@@ -1,8 +1,9 @@
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
-import { serviceProviders } from '@/components/oauth';
+import { PlaceholderImage } from '@/components/common/PlaceholderImage';
 import { ResultCard } from '@/components/common/ResultCard';
+import { serviceProviders } from '@/components/oauth';
 import { QuestionMarkCircleIcon } from '@heroicons/react/24/solid';
 
 export default async function OAuthPage({
@@ -22,9 +23,8 @@ export default async function OAuthPage({
         title="Error"
         message="Provider not found"
         type="error"
-        icon={
-          <QuestionMarkCircleIcon className="w-16 h-16 mx-auto text-red-500" />
-        }
+        icon={<PlaceholderImage type="question" />}
+        showHomeLink
       />
     );
   }
