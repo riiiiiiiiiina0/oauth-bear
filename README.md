@@ -2,7 +2,7 @@
 
 A Next.js application that provides a flexible framework for handling OAuth 2.0 authentication flows with multiple service providers.
 
-![](./docs/bearry%20potter.jpeg)
+![](./docs/poster.jpeg)
 
 ## Features
 
