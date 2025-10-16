@@ -4,8 +4,22 @@ import { SendTokensToExtension } from '@/components/common/SendTokensToExtension
 import { serviceProviders } from '@/components/oauth';
 import { sendMessageToExtension } from '@/utils/extensions/messaging';
 import {
-    CheckBadgeIcon, ExclamationCircleIcon, ExclamationTriangleIcon, QuestionMarkCircleIcon
+  CheckBadgeIcon,
+  ExclamationCircleIcon,
+  ExclamationTriangleIcon,
+  QuestionMarkCircleIcon,
 } from '@heroicons/react/24/solid';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Raindrop OAuth',
+  icons: {
+    icon: {
+      url: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>💧</text></svg>",
+      type: 'image/svg+xml',
+    },
+  },
+};
 
 interface CallbackPageProps {
   params: Promise<{ provider: string }>;
