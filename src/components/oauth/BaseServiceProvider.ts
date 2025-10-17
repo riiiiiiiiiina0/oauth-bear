@@ -7,7 +7,16 @@ export abstract class BaseServiceProvider {
   protected readonly redirectUri: string;
   protected readonly scope: string;
 
-  constructor(name: string) {
+  protected readonly authorizationUrl: string;
+  protected readonly tokenUrl: string;
+  protected readonly refreshTokenUrl: string;
+
+  constructor(
+    name: string,
+    authorizationUrl: string,
+    tokenUrl: string,
+    refreshTokenUrl?: string,
+  ) {
     this.name = name;
 
     const _name = name.toUpperCase();
@@ -15,15 +24,48 @@ export abstract class BaseServiceProvider {
     this.clientSecret = process.env[`${_name}_CLIENT_SECRET`] ?? '';
     this.redirectUri = process.env[`${_name}_REDIRECT_URI`] ?? '';
     this.scope = process.env[`${_name}_SCOPE`] ?? '';
+
+    this.authorizationUrl = authorizationUrl;
+    this.tokenUrl = tokenUrl;
+    this.refreshTokenUrl = refreshTokenUrl ?? tokenUrl;
   }
 
-  abstract getAuthorizationUrl(searchParams: {
+  async getAuthorizationUrl(searchParams: {
     [key: string]: string | string[] | undefined;
-  }): Promise<string>;
+  }): Promise<string> {
+    const params = this.getAuthorizationRequestBody(searchParams);
+    return `${this.authorizationUrl}?${params.toString()}`;
+  }
 
-  abstract getTokens(code: string): Promise<TokenResponse>;
+  async getTokens(code: string): Promise<TokenResponse> {
+    const response = await fetch(this.tokenUrl, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...this.getTokenRequestBody(code),
+        grant_type: 'authorization_code',
+      }),
+    });
+    return response.json();
+  }
 
-  abstract refreshToken(refreshToken: string): Promise<TokenResponse>;
+  async refreshToken(refreshToken: string): Promise<TokenResponse> {
+    const response = await fetch(this.refreshTokenUrl, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...this.getTokenRequestBody(refreshToken),
+        grant_type: 'refresh_token',
+      }),
+    });
+    return response.json();
+  }
 
   protected getAuthorizationRequestBody(
     searchParams: SearchParams,
@@ -31,11 +73,22 @@ export abstract class BaseServiceProvider {
     const params = new URLSearchParams();
     params.set('client_id', this.clientId);
     params.set('redirect_uri', this.redirectUri);
+    params.set('scope', this.scope);
+    params.set('response_type', 'code');
 
     const state = this.getStateFromSearchParams(searchParams);
     if (state) params.set('state', state);
 
     return params;
+  }
+
+  protected getTokenRequestBody(code: string): any {
+    return {
+      code,
+      client_id: this.clientId,
+      client_secret: this.clientSecret,
+      redirect_uri: this.redirectUri,
+    };
   }
 
   protected getStateFromSearchParams(searchParams: {

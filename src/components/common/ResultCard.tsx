@@ -18,6 +18,9 @@ export function ResultCard({
   type?: 'error' | 'success';
   showHomeLink?: boolean;
 }) {
+  const isDev = process.env.NODE_ENV === 'development';
+  const shouldShowHomeLink = showHomeLink || isDev;
+
   return (
     <div
       className={classNames(
@@ -39,9 +42,9 @@ export function ResultCard({
             </h2>
           )}
           {message && <p className="text-center">{message}</p>}
-          {showHomeLink && (
+          {shouldShowHomeLink && (
             <div className="card-actions justify-center mt-4">
-              {showHomeLink && <GoHomeLink />}
+              {shouldShowHomeLink && <GoHomeLink />}
             </div>
           )}
         </div>

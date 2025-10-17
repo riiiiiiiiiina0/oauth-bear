@@ -24,6 +24,14 @@ export default function Home() {
               💧 Raindrop
             </Link>
 
+            <Link href={`/oauth/google`} className="btn btn-primary w-full">
+              🅖 Google
+            </Link>
+
+            <Link href={`/oauth/github`} className="btn btn-accent w-full">
+              🐱 GitHub
+            </Link>
+
             <Link
               href={`/oauth/not-found-test`}
               className="btn btn-error w-full"
