@@ -7,9 +7,9 @@ const getPlaceholderImageUrl = (
   context?: string,
 ) => {
   if (type !== 'others' && context) {
-    return `/images/provider-${context}-${type}.png`;
+    return `/images/provider-${context}-${type}.jpeg`;
   }
-  return `/images/${context}.png`;
+  return `/images/${context}.jpeg`;
 };
 
 export function PlaceholderImage({
