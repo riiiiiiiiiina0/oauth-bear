@@ -6,7 +6,7 @@ export default function Home() {
       <div className="card bg-base-100 w-96 shadow-xl">
         <div className="card-body">
           <h2 className="card-title justify-center text-4xl mb-2">
-            🐻‍❄️🔑 Auth Bear
+            🐻‍❄️🔑 Oh auth, bear!
           </h2>
           <p className="text-center mb-4">OAuth authentication service</p>
 
@@ -19,7 +19,7 @@ export default function Home() {
                   extensionId: 'gkcgbmlbjcdmnifhcmfgkafekaohjcof',
                 }),
               )}`}
-              className="btn btn-primary w-full"
+              className="btn btn-info w-full"
             >
               💧 Raindrop
             </Link>

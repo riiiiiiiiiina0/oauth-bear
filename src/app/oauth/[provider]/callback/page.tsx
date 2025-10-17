@@ -2,13 +2,6 @@ import { PlaceholderImage } from '@/components/common/PlaceholderImage';
 import { ResultCard } from '@/components/common/ResultCard';
 import { SendTokensToExtension } from '@/components/common/SendTokensToExtension';
 import { serviceProviders } from '@/components/oauth';
-import { sendMessageToExtension } from '@/utils/extensions/messaging';
-import {
-  CheckBadgeIcon,
-  ExclamationCircleIcon,
-  ExclamationTriangleIcon,
-  QuestionMarkCircleIcon,
-} from '@heroicons/react/24/solid';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -44,7 +37,7 @@ export default async function CallbackPage({
         title="Error"
         message="Provider not found"
         type="error"
-        icon={<PlaceholderImage type="question" />}
+        icon={<PlaceholderImage context="provider-not-found" />}
         showHomeLink
       />
     );
@@ -58,7 +51,7 @@ export default async function CallbackPage({
         title="Error"
         message="Missing authorization code"
         type="error"
-        icon={<PlaceholderImage type="raindrop-error" />}
+        icon={<PlaceholderImage type="fail" context={provider} />}
         showHomeLink
       />
     );
@@ -91,7 +84,7 @@ export default async function CallbackPage({
           title="Authentication Failed"
           message={errorMessage}
           type="error"
-          icon={<PlaceholderImage type="raindrop-error" />}
+          icon={<PlaceholderImage type="fail" context={provider} />}
         />
       );
     }
@@ -114,7 +107,7 @@ export default async function CallbackPage({
           title="Success"
           message="You can close this page now"
           type="success"
-          icon={<PlaceholderImage type="raindrop-success" />}
+          icon={<PlaceholderImage type="success" context={provider} />}
         />
         <SendTokensToExtension
           provider={provider}
@@ -132,7 +125,7 @@ export default async function CallbackPage({
         title="Error"
         message="Failed to obtain tokens"
         type="error"
-        icon={<PlaceholderImage type="raindrop-error" />}
+        icon={<PlaceholderImage type="fail" context={provider} />}
       />
     );
   }

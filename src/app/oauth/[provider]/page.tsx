@@ -32,7 +32,7 @@ export default async function OAuthPage({
         title="Error"
         message="Provider not found"
         type="error"
-        icon={<PlaceholderImage type="question" />}
+        icon={<PlaceholderImage context="provider-not-found" />}
         showHomeLink
       />
     );

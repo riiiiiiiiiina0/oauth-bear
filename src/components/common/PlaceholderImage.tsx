@@ -1,24 +1,29 @@
 import classNames from 'classnames';
 
-export type PlaceholderImageType =
-  | 'question'
-  | 'raindrop-success'
-  | 'raindrop-error';
+export type PlaceholderImageType = 'others' | 'success' | 'fail';
 
-const placeholderImages: Record<PlaceholderImageType, string> = {
-  question: '/images/bear-question.png',
-  'raindrop-success': '/images/raindrop-success.png',
-  'raindrop-error': '/images/raindrop-error.png',
+const getPlaceholderImageUrl = (
+  type: PlaceholderImageType,
+  context?: string,
+) => {
+  if (type !== 'others' && context) {
+    return `/images/provider-${context}-${type}.png`;
+  }
+  return `/images/${context}.png`;
 };
 
 export function PlaceholderImage({
-  type,
+  context,
+  type = 'others',
   className,
 }: {
-  type: PlaceholderImageType;
+  context?: string;
+  type?: PlaceholderImageType;
   className?: string;
 }) {
-  const image = placeholderImages[type];
+  const image = getPlaceholderImageUrl(type, context);
   if (!image) return null;
-  return <img src={image} className={classNames('size-80', className)} />;
+  return (
+    <img src={image} className={classNames('size-80 rounded-lg', className)} />
+  );
 }
